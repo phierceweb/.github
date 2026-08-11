@@ -48,6 +48,6 @@ All MIT licensed.
 
 ### About
 
-I'm a software architect and engineering manager — 28 years writing software, 18 of them running my own shop. These are built nights and weekends. I design the architecture and direct AI coding agents to build against it, with the conventions enforced by build gates rather than left to discipline: CI fails when a file outgrows its line budget, or when an import crosses the layering the wrong way.
+I'm a software architect and engineering manager. These are built nights and weekends. I hope others find these tools useful. I welcome collaboration. 
 
 [LinkedIn](https://www.linkedin.com/in/mike-farr-slc/)
