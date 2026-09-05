@@ -43,7 +43,7 @@ The acquisition front end to pagespeak. Point it at a manual's URL: a pattern re
 
 For publicly available documentation only — vendor manuals, help centers, open textbooks, API specs. No login handling, no paywall traversal, no bot-detection evasion. It identifies itself, honors `429 Retry-After`, backs off on server errors, paces its requests, and caps crawl size. Closer to "Save Page As" than to an autonomous crawler.
 
-### [pptxkit](https://github.com/phierceweb/pptxkit) · `git clone`
+### [deckwright](https://github.com/phierceweb/deckwright) · `git clone`
 
 Tell an AI agent your story; get a branded PowerPoint deck.
 
@@ -53,7 +53,7 @@ That is what makes iterating cheap. Add a slide, cut two, reorder the middle, tu
 
 ---
 
-All MIT licensed. (pptxkit also bundles the Material icon set, under Apache-2.0.)
+All MIT licensed. (deckwright also bundles the Material icon set, under Apache-2.0.)
 
 ### About
 
