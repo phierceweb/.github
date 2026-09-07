@@ -2,7 +2,7 @@
 
 Open-source Python tooling for LLM applications, built by [Mike Farr](https://www.linkedin.com/in/mike-farr-slc/).
 
-Currently, multiple projects built on the same. **pf-core** is the foundation; **pagespeak**, **pagespring** and **pptxkit** are built on it. More are in the works.
+Several projects on one foundation. **pf-core** is that foundation; **pagespeak**, **pagespring**, **deckwright**, **x32scene** and **logicxkit** are built on it. More are in the works.
 
 ```mermaid
 flowchart LR
@@ -12,7 +12,9 @@ flowchart LR
     C --> E["Retrieval-ready<br/>markdown corpus"]
     F["pf-core — LLM clients, versioned prompts, cost tracking, jobs"] -.-> B
     F -.-> C
-    F -.-> G["pptxkit<br/><i>deck spec → branded .pptx</i>"]
+    F -.-> G["deckwright<br/><i>deck spec → branded .pptx</i>"]
+    F -.-> H["x32scene<br/><i>plain English → console scene</i>"]
+    F -.-> I["logicxkit<br/><i>read + edit Logic sessions</i>"]
 ```
 
 ---
@@ -51,9 +53,27 @@ Deciding what goes on the slides should be the hard part, not the slide applicat
 
 That is what makes iterating cheap. Add a slide, cut two, reorder the middle, turn that list into a column chart — each of those is one sentence to an assistant that has the spec open, and the deck rebuilds in seconds. The story is what you're editing, not the program. The repo ships three reference docs the agent reads while it builds, covering the design calls it would otherwise guess at: which chart the numbers want and whether they want one at all, what shape a slide that isn't a chart should take, and whether the arrows in a diagram are making a claim. Whatever it still gets wrong, the compiler catches before it writes the file — text that doesn't fit stops the build with a message naming the fix.
 
+### [x32scene](https://github.com/phierceweb/x32scene) · `pip install x32scene`
+
+AI-assisted control of a Behringer X32 or M32 mixing console, through the files the console itself writes. Tell an assistant what the night needs: this band's inputs moved to the second stage box, that player's in-ear mix carried over from last week, a plate on FX 4 at 2.1 seconds. You get back a scene you load on the desk. Every command has a `--json` form and can list the vocabulary the console accepts, so an agent can drive the whole surface as well as a person can.
+
+That works because the console keeps a whole show as a few thousand lines of plain text: routing, head amps, EQ and dynamics on every channel, every monitor mix, the effects rack. x32scene reads and writes those files directly, including scenes, snippets, channel, effect and routing presets, and shows. Editing through the desk is time-consuming and difficult, changing one thing at a time. **x32scene** can change entire swaths of functionality at once.
+
+Parsing is byte-faithful, so an edited file differs from its source by exactly the lines that were meant to change and nothing else. `diff` reports what moved in the desk's own terms, values are checked against the console's vocabulary before anything is written, and a plan for a whole night is refused if the result strays outside the paths the plan named.
+
+### [logicxkit](https://github.com/phierceweb/logicxkit) · `pip install logicxkit`
+
+A Logic Pro session is an opaque binary. Which plugin sits in which slot, what that plugin actually saved, the fader, the routing, the track list, the groups — all of it is reachable only by opening Logic and looking at it. There is no way to diff two sessions, script one change across twenty of them, or read what a third-party plugin stored inside a strip you saved last year.
+
+logicxkit reads those containers directly. Inventory a session, diff two of them, or diff one against your channel-strip library to find the channel that quietly stopped matching the strip it names. Copy a control bar or a set of mixer groups from one project onto another, migrate an old song onto a newer template, repoint strip references after a library rename. `au strip` decodes the third-party plugin state embedded in a session — the layer Logic reports as a preset name and nothing more.
+
+None of these formats are documented, so all of it came out of measurement: one deliberate change per Logic save, then a byte diff against the save before it. The control bar is the tidiest example — every button id was pinned across fifty single-toggle saves, and a bar written by the tool and copied whole onto another project came up in Logic with that exact set. That standard is not uniform across the tool, so a generated table records what each command was measured against and when, and any write that has not been confirmed in Logic says so before it runs.
+
+macOS only, since it reads and writes Logic's own files. Every project write lands on a copy — the input session is never modified.
+
 ---
 
-All MIT licensed. (deckwright also bundles the Material icon set, under Apache-2.0.)
+All MIT licensed, except logicxkit, which is Apache-2.0. (deckwright also bundles the Material icon set, under Apache-2.0.)
 
 ### About
 
