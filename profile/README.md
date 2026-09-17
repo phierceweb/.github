@@ -2,7 +2,7 @@
 
 Open-source Python tooling for LLM applications, built by [Mike Farr](https://www.linkedin.com/in/mike-farr-slc/).
 
-Several projects on one foundation. **pf-core** is that foundation; **pagespeak**, **pagespring**, **deckwright**, **x32scene** and **logicxkit** are built on it. More are in the works.
+Several projects on one foundation. **pf-core** is that foundation; **pagespeak**, **pagespring**, **deckwright**, **x32scene**, **logicxkit** and **groovebin** are built on it. More are in the works.
 
 ```mermaid
 flowchart LR
@@ -15,6 +15,7 @@ flowchart LR
     F -.-> G["deckwright<br/><i>deck spec → branded .pptx</i>"]
     F -.-> H["x32scene<br/><i>plain English → console scene</i>"]
     F -.-> I["logicxkit<br/><i>read + edit Logic sessions</i>"]
+    F -.-> J["groovebin<br/><i>drum maps + MIDI pattern library</i>"]
 ```
 
 ---
@@ -71,9 +72,19 @@ None of these formats are documented, so all of it came out of measurement: one 
 
 macOS only, since it reads and writes Logic's own files. Every project write lands on a copy — the input session is never modified.
 
+### [groovebin](https://github.com/phierceweb/groovebin) · `pip install groovebin`
+
+A drum part is written for one kit's note numbers. Play it through a different drum instrument and the notes land on the wrong sounds — a rimshot arrives as a cowbell, a cymbal choke stops nothing. The usual fix is to open the file in a DAW and move notes by hand, one at a time.
+
+groovebin translates the part instead. It reads and writes Standard MIDI Files, moves notes between drum maps — General MIDI, Addictive Drums 2, Logic's Drum Kit Designer — transforms them by selection (velocity curves, humanize, swing, note lengths), and indexes a folder of patterns so a groove can be found by role, meter and tempo instead of by opening files until the right one turns up. Nothing needs a DAW running or a plug-in installed. logicxkit uses it for the MIDI it reads out of and writes into Logic projects.
+
+The note numbers are the whole claim, so every note in a packaged map carries its source: General MIDI from the MIDI Manufacturers Association's own percussion table (47 notes), Addictive Drums 2 from the keymap its vendor publishes (80), and Drum Kit Designer from Apple's published figure, its octave reading corroborated against the pitches counted in four exported drummer regions (30). A note no source names stays out of the map. A note with no counterpart in the destination is reported rather than approximated onto a neighbour, and a choke never falls back onto a strike. Reading a file and writing it back keeps every note and every other event at its tick, so what comes back differs from the source only where the translation touched it.
+
+It ships note-number tables only — no sounds, patterns or MIDI content from any vendor — and it does no audio analysis: no onsets, no transients, no flex markers. Alpha, so the commands and the index format may still change before 1.0.
+
 ---
 
-All MIT licensed, except logicxkit, which is Apache-2.0. (deckwright also bundles the Material icon set, under Apache-2.0.)
+All Apache-2.0 licensed, except pf-core and pagespeak, which are MIT. (deckwright also bundles the Material icon set, under Apache-2.0.)
 
 ### About
 
